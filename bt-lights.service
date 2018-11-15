@@ -4,7 +4,7 @@ After=bluetooth.service
 Wants=bluetooth.service
 
 [Service]
-ExecStart=/usr/bin/python -u /home/pi/lights/bt-lights-agent
+ExecStart=/usr/bin/python -u /home/pi/bt-actions/bt-lights-agent
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=BT-Lights-Agent
