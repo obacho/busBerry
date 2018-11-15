@@ -129,11 +129,13 @@ sudo systemctl enable a2dp-playback.service
 Reboot and enjoy!
 ... unless you also want the fancy lights
 
-## Lights setup
-copy the folder **lights** to `/home/pi/`
+## Actions upon connect setup
+this lets the lights of my case fire up and have the pi play a welcome/goodbye sound
 
-To make the lights work on boot copy the included file **bt-lights.service** to `/etc/systemd/system`.
+copy the folder **bt-actions** to `/home/pi/`
+
+To make the lights work on boot copy the included file **bt-actions.service** to `/etc/systemd/system`.
 Now run the following command to enable the lights service
 ```
-sudo systemctl enable bt-lights.service
+sudo systemctl enable bt-actions.service
 ```
