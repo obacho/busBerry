@@ -126,10 +126,14 @@ Now run the following command to enable A2DP Playback service
 sudo systemctl enable a2dp-playback.service
 ```
 
+### Setting the output volume of the 3.5 jack
+By default, the volume of the output is limited to 40%.
+With ```alsamixer``` this can be changed (permanently) as desired. 
+
 Reboot and enjoy!
 ... unless you also want the fancy lights
 
-## Actions upon connect setup
+## Actions upon detected connection
 this lets the lights of my case fire up and have the pi play a welcome/goodbye sound
 
 copy the folder **bt-actions** to `/home/pi/`
