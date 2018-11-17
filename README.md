@@ -125,10 +125,17 @@ Now run the following command to enable A2DP Playback service
 ```
 sudo systemctl enable a2dp-playback.service
 ```
+## General settings
 
-### Setting the output volume of the 3.5 jack
+## Setting the output volume of the 3.5 jack
 By default, the volume of the output is limited to 40%.
 With ```alsamixer``` this can be changed (permanently) as desired. 
+
+## Renaming the bt name
+Modify or create the file `/etc/machine-info` to contain
+```
+PRETTY_HOSTNAME=<device-name>
+```
 
 Reboot and enjoy!
 ... unless you also want the fancy lights
