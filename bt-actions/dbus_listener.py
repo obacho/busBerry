@@ -11,8 +11,6 @@ except ImportError:
 import subprocess
 from os import devnull
 
-from bus_lights import (lights_on, all_lights_off,
-                        indicate, start_indicate, stop_indicate)
 
 LOG_LEVEL = logging.INFO
 LOG_FILE = "/home/pi/bt-actions/bt.log"
@@ -22,7 +20,6 @@ logging.basicConfig(filename=LOG_FILE, format=LOG_FORMAT, level=LOG_LEVEL)
 
 def connect():
     logging.info('connect')
-    lights_on()
     with open(devnull, 'wb') as DEVNULL:
         subprocess.call(['aplay', '/home/pi/bt-actions/horn_once.wav'],
                         stdout=DEVNULL,
@@ -34,16 +31,12 @@ def disconnect():
         subprocess.call(['aplay', '/home/pi/bt-actions/horn_twice.wav'],
                         stdout=DEVNULL,
                         stderr=DEVNULL)
-    all_lights_off()
 
 def play():
     logging.info('play')
-    stop_indicate()
-    indicate(pattern='leftright')
 
 def pause():
     logging.info('pause')
-    indicate(n_times=3)
 
 def print_event(string):
     print("\n")
@@ -62,7 +55,7 @@ def event_handler(source, properties, *args, **kwargs):
     """
     try:
         is_connected = properties['Connected']
-        if source == 'org.bluez.Device1':
+        if source == 'org.bluez.MediaControl1':
             if is_connected:
                 connect()
             else:
@@ -88,10 +81,16 @@ def catchall_handler(*args, **kwargs):
 
     print('Arguments:')
     for arg in args:
-        print ('* %s' % str(arg))
+        if arg.__class__.__name__ == 'Dictionary':
+            print('Dictionary:')
+            for key, value in arg.items():
+                print(key, ':', value)
+        else:
+            print ('* %s' % str(arg))
     for key, value in kwargs.items():
         print (key, ':', value)
 
+    print("\n")
     print("\n")
 
 
@@ -100,7 +99,7 @@ if __name__ == '__main__':
 
     bus = dbus.SystemBus()
 
-    bus.add_signal_receiver(event_handler,
+    bus.add_signal_receiver(catchall_handler,
                             bus_name="org.bluez",
                             signal_name="PropertiesChanged",
                             interface_keyword='dbus_interface',
@@ -111,4 +110,4 @@ try:
     mainloop = gobject.MainLoop()
     mainloop.run()
 except KeyboardInterrupt:
-    all_lights_off()
+    pass
